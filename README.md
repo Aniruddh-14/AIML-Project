@@ -19,7 +19,7 @@ An AI/ML pipeline for text summarization using clustering-based extractive metho
 
 ### Prerequisites
 
-- Python 3.8+
+- Python 3.8++
 
 ### Installation
 
