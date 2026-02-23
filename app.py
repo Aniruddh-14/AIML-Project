@@ -1,7 +1,4 @@
-"""
-Streamlit App — AI-Powered Extractive Text Summarizer
-Uses TF-IDF + K-Means clustering to summarize documents.
-"""
+
 
 import streamlit as st
 from src.summarizer import summarize
