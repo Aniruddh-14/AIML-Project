@@ -10,7 +10,3 @@ clustering          K-Means sentence clustering with automatic k selection
 summarizer          High-level API that ties the pipeline together
 utils               Shared helpers and sample texts
 """
-
-from src.summarizer import summarize  # noqa: F401 — convenient top-level import
-
-__all__ = ["summarize"]

@@ -1,20 +1,8 @@
----
-title: AI Text Summarizer
-emoji: 📝
-colorFrom: indigo
-colorTo: blue
-sdk: streamlit
-sdk_version: "1.42.0"
-app_file: app.py
-pinned: false
-license: mit
----
-
 # AI Text Summarizer
 
 An **extractive text summarizer** built with Python, powered by TF-IDF feature extraction and K-Means clustering. The app selects the most informative sentences from a document to create a concise summary — no neural networks needed.
 
-> **Live demo:** Hosted on [Hugging Face Spaces](https://huggingface.co/spaces/the-carnage/AIML-Project)
+> **Live demo:** Hosted on [Streamlit Community Cloud](https://aiml-project.streamlit.app)
 
 ---
 
@@ -73,20 +61,17 @@ The result is a summary that covers all major topics proportionally while keepin
 ## Project Structure
 
 ```
-├── app.py                          # Streamlit web interface
-├── Dockerfile                      # Docker config for HF Spaces
-├── requirements.txt                # Pinned Python dependencies
-├── .github/
-│   └── workflows/
-│       ├── ci.yml                  # Lint + smoke tests on every push
-│       └── sync_to_hf_space.yml   # Auto-deploy to Hugging Face Spaces
+├── app.py                      # Streamlit web interface
+├── requirements.txt            # Python dependencies
+├── .streamlit/
+│   └── config.toml             # Streamlit configuration
 └── src/
-    ├── __init__.py                 # Package init with top-level import
-    ├── preprocess.py               # Text cleaning, sentence splitting
-    ├── feature_extraction.py       # TF-IDF matrix + sentence scoring
-    ├── clustering.py               # K-Means clustering + elbow method
-    ├── summarizer.py               # Orchestrates the full pipeline
-    └── utils.py                    # Helpers and sample texts
+    ├── __init__.py             # Package docstring
+    ├── preprocess.py           # Text cleaning, sentence splitting
+    ├── feature_extraction.py   # TF-IDF matrix + sentence scoring
+    ├── clustering.py           # K-Means clustering + elbow method
+    ├── summarizer.py           # Orchestrates the full pipeline
+    └── utils.py                # Helpers and sample texts
 ```
 
 ---
@@ -119,20 +104,14 @@ The app opens at `http://localhost:8501`.
 
 ---
 
-## CI/CD
+## Deploying on Streamlit Community Cloud
 
-| Workflow                             | Trigger             | What it does                             |
-| ------------------------------------ | ------------------- | ---------------------------------------- |
-| **Lint & Test** (`ci.yml`)           | Push / PR to `main` | Runs flake8 + smoke tests                |
-| **HF Sync** (`sync_to_hf_space.yml`) | Push to `main`      | Force-pushes code to Hugging Face Spaces |
+1. Push this repo to GitHub.
+2. Go to [share.streamlit.io](https://share.streamlit.io).
+3. Click **New app** → select this repo → branch `main` → file `app.py`.
+4. Click **Deploy**. That's it.
 
-### Required GitHub Secrets (for HF deploy)
-
-| Secret        | Description                                  |
-| ------------- | -------------------------------------------- |
-| `HF_TOKEN`    | Hugging Face token with **Write** permission |
-| `HF_USERNAME` | Your HF username (e.g. `the-carnage`)        |
-| `HF_SPACE`    | Space repo name (e.g. `AIML-Project`)        |
+Streamlit Cloud auto-installs packages from `requirements.txt` and picks up `.streamlit/config.toml`.
 
 ---
 
@@ -142,7 +121,6 @@ The app opens at `http://localhost:8501`.
 - **NLTK** — sentence tokenization and stopword lists
 - **scikit-learn** — TF-IDF vectorization and K-Means clustering
 - **NumPy** — numerical operations
-- **Docker** — containerised deployment on Hugging Face Spaces
 
 ---
 
