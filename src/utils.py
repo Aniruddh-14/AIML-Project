@@ -1,8 +1,56 @@
 """
-Utility functions for the summarization app.
+Shared utility functions and sample texts for the summarisation app.
+
+Nothing ML-specific lives here — just plain-Python helpers and the demo
+texts shown in the sidebar dropdown.
 """
 
-SAMPLE_TEXTS = {
+from __future__ import annotations
+
+
+# ── Text metrics ───────────────────────────────────────────────────
+
+def word_count(text: str) -> int:
+    """Return the number of whitespace-delimited words in *text*."""
+    if not text:
+        return 0
+    return len(text.split())
+
+
+def char_count(text: str) -> int:
+    """Return the total number of characters (including spaces)."""
+    return len(text)
+
+
+def sentence_count(text: str) -> int:
+    """
+    Quick sentence count using NLTK's Punkt tokenizer.
+
+    Importing here avoids a circular dependency — the rest of
+    ``preprocess`` isn't needed.
+    """
+    if not text or not text.strip():
+        return 0
+    from src.preprocess import split_sentences
+    return len(split_sentences(text))
+
+
+def reading_time_seconds(text: str, wpm: int = 200) -> int:
+    """
+    Estimate reading time in seconds, assuming *wpm* words-per-minute.
+
+    The average adult reads ~200-250 wpm; we default to the lower end
+    to be conservative.
+    """
+    words = word_count(text)
+    if words == 0:
+        return 0
+    return max(1, round(words / wpm * 60))
+
+
+# ── Sample texts shown in the Streamlit sidebar ───────────────────
+
+SAMPLE_TEXTS: dict[str, str] = {
     "Artificial Intelligence": (
         "Artificial intelligence (AI) is intelligence demonstrated by machines, "
         "as opposed to natural intelligence displayed by animals including humans. "
@@ -64,13 +112,3 @@ SAMPLE_TEXTS = {
         "recognition, speech recognition, and natural language processing."
     ),
 }
-
-
-def word_count(text: str) -> int:
-    """Return the number of words in the text."""
-    return len(text.split())
-
-
-def char_count(text: str) -> int:
-    """Return the number of characters in the text."""
-    return len(text)
